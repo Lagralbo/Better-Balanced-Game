@@ -1,0 +1,9 @@
+{
+    "id": "LagralboBetterBalacedGame",
+    "name": "Better Balanced Game",
+    "author": ["Lagralbo"],
+    "description": "Reworks of various jokers and game mechanics to fix Balatro's balance issues, particularly in gold stake. Meant for a singleplayer vanilla experience",
+    "prefix": "lbbg",
+    "main_file": "main.lua",
+    "version": "0.0.1"
+}
