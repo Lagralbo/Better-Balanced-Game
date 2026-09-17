@@ -113,6 +113,27 @@ return{
             },
 
         },
+        Voucher = {
+            v_illusion = {
+                name = "Illusion",
+                text = {
+                    "{C:attention}Playing cards{} appear",
+                    "{C:attention}#1#X{} more frequently",
+                    "in the shop and may have",
+                    "an {C:dark_edition}Edition{}, and/or a {C:attention}Seal{}",
+                },
+
+            },
+            v_magic_trick = {
+                name = "Magic Trick",
+                text = {
+                    "{C:attention}Playing cards{} can",
+                    "be purchased from",
+                    "the {C:attention}shop{} and may",
+                    "have an {C:enhanced}Enhancement{}",
+                },
+            }
+        },
         Other = {
             blue_seal = {
                 name = "Blue Seal",

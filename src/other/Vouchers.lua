@@ -1,6 +1,15 @@
 -- Magic Trick
 SMODS.Voucher:take_ownership( 'magic_trick', {
     config = { extra = { rate = 4 } },
+
+    calculate = function(self, card, context)
+        if context.create_shop_card and (context.set == "Base"
+        or context.set == "Enhanced") then 
+        return {
+            shop_create_flags = { set = "Playing Card", key_append = "bbg_magic_trick" }
+        }
+        end
+    end,
     redeem = function(self, card)
         G.E_MANAGER:add_event(Event({
             func = function()
@@ -10,17 +19,20 @@ SMODS.Voucher:take_ownership( 'magic_trick', {
         }))
     end
 }, true)
-
 SMODS.Voucher:take_ownership('illusion', {
     config = { extra = { base_rate = 4, extra_rate = 2.4, display = 2 } },
     loc_vars = function(self, info_queue, card)
         return { vars = {card.ability.extra.display} }
     end,
     calculate = function(self, card, context)
+
         if context.modify_shop_card and
             (context.card.ability.set == 'Enhanced' or context.card.ability.set == 'Default') then -- is a playing card
             if pseudorandom('BBG_illusion') > 0.7 then
                 context.card:set_edition(SMODS.poll_edition { key = 'BBG_illusion_edition', no_negative = true, guaranteed = true })
+            end
+            if pseudorandom('BBG_illusion') > 0.7 then
+                context.card:set_seal(SMODS.poll_seal{ key = 'BBG_illusion_seal', guaranteed = true })
             end
         end
     end,
