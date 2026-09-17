@@ -38,4 +38,29 @@ SMODS.Joker:take_ownership('lucky_cat', {
 SMODS.Joker:take_ownership('pareidolia', {
     cost = 4
 }, true)
+
+
+SMODS.Joker:take_ownership('blackboard', {
+    cost = 7
+}, true)
+
+SMODS.Joker:take_ownership('ring_master', {
+    cost = 3
+}, true)
+
+SMODS.Joker:take_ownership('four_fingers', {
+    cost = 6
+}, true)
+
+SMODS.Joker:take_ownership('smeared', {
+    cost = 6
+}, true)
+SMODS.Joker:take_ownership('seance', {
+    cost = 5
+}, true)
+
+
+SMODS.Joker:take_ownership ('bull',{
+    cost = 7
+}, true)
 end

@@ -45,7 +45,6 @@ end
 SMODS.current_mod.calculate = function(self, context)
     --Scolar logic
     if context.individual and context.cardarea == G.play then
-        serialize_string("what") 
         if context.other_card:get_id() == 14 then
             G.GAME.played_aces = (G.GAME.played_aces or 0) + 1
         end

@@ -103,6 +103,14 @@ return{
                     "{C:inactive}#1#",
                 },
             },
+            tag_boss={
+                name="Boss Tag",
+                text={
+                    "Rerolls the",
+                    "{C:attention}Boss Blind",
+                    "{C:inactive}#1#",
+                },
+            },
 
         },
         Other = {

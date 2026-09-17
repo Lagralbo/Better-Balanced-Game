@@ -1,4 +1,25 @@
 {
     "workspace.library":
-            ["path/to/smods", "path/to/lovely"]
+            ["path/to/smods", "path/to/lovely"],
+    "diagnostics.globals": [
+        "SMODS",
+        "G",
+        "localize",
+        "pseudorandom_element",
+        "play_sound",
+        "delay",
+        "Event",
+        "change_shop_size",
+        "ease_dollars",
+        "create_shop_card_ui",
+        "pseudoshuffle",
+        "ease_discard",
+        "DynaText",
+        "Card",
+        "pseudorandom",
+        "juice_card_until",
+        "save_run",
+        "add_tag",
+        "UIBox"
+    ]
 }

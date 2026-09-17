@@ -1,43 +1,88 @@
+function G.FUNCS.BBG_set_blind(key)
+    if not G.blind_select then return end
+
+    local par = G.blind_select_opts.boss.parent
+    if not key then
+        G.GAME.round_resets.blind_choices.Boss = get_new_boss()
+    else
+        G.GAME.round_resets.blind_choices.Boss = key
+    end
 
 
--- SMODS.Tag {
---     key = "orbital",
---     min_ante = 2,
---     pos = { x = 5, y = 2 },
---     config = { levels = 3 },
---     loc_vars = function(self, info_queue, tag)
---         return {
---             vars = {
---                 (tag.ability.orbital_hand == '[' .. localize('k_poker_hand') .. ']') and tag.ability.orbital_hand or
---                 localize(tag.ability.orbital_hand, 'poker_hands'), tag.config.levels }
---         }
---     end,
---     set_ability = function(self, tag)
---         if G.orbital_hand then
---             tag.ability.orbital_hand = G.orbital_hand
---         elseif tag.ability.blind_type then
---             if G.GAME.orbital_choices and G.GAME.orbital_choices[G.GAME.round_resets.ante][tag.ability.blind_type] then
---                 tag.ability.orbital_hand = G.GAME.orbital_choices[G.GAME.round_resets.ante][tag.ability.blind_type]
---             end
---         end
---     end,
---     apply = function(self, tag, context)
---         if context.type == 'immediate' then
---             local lock = tag.ID
---             G.CONTROLLER.locks[lock] = true
---             SMODS.upgrade_poker_hands({ from = tag, hands = { tag.ability.orbital_hand }, level_up = tag.config.levels })
---             tag:yep('+', G.C.MONEY, function()
---                 G.CONTROLLER.locks[lock] = nil
---                 return true
---             end)
---             tag.triggered = true
---             return true
---         end
---     end
--- }
+    G.blind_select_opts.boss = UIBox{
+        T = {par.T.x, 0, 0, 0, },
+        definition =
+        {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={
+            UIBox_dyn_container({create_UIBox_blind_choice('Boss')},false,get_blind_main_colour('Boss'), mix_colours(G.C.BLACK, get_blind_main_colour('Boss'), 0.8))
+        }},
+        config = {align="bmi",
+                offset = {x=0,y=G.ROOM.T.y + 9},
+                major = par,
+                xy_bond = 'Weak'
+                }
+    }
+    par.config.object = G.blind_select_opts.boss
+    par.config.object:recalculate()
+    G.blind_select_opts.boss.parent = par
+    G.blind_select_opts.boss.alignment.offset.y = 0
+end
 
 
-SMODS.Tag:take_ownership('investment', {
+SMODS.Tag:take_ownership('boss', {
+    loc_vars = function(self, info_queue, tag)
+        return {vars = {
+                GetBossTagLocText(tag.ability.rerolled_boss )
+            }}
+    end,
+    apply = function(self, tag, context)
+        if context.type == 'new_blind_choice' or context.type == 'immediate'then
+            local lock = tag.ID
+            G.CONTROLLER.locks[lock] = true
+            tag:yep('+', G.C.GREEN, function()
+                -- G.from_boss_tag = true
+                -- G.FUNCS.reroll_boss()
+                                --G.crash.thefucking.the_game = 0
+                G.FUNCS.BBG_set_blind(tag.ability.rerolled_boss )
+
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                G.CONTROLLER.locks[lock] = nil
+                                return true
+                            end
+                        }))
+                        return true
+                    end
+                }))
+
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end,
+    set_ability = function(self, tag)
+        if tag.ability.blind_type then
+            tag.ability.rerolled_boss = get_new_boss()
+        end
+    end,
+    
+}, true)
+
+
+GetBossTagLocText = function (key)
+    if key then 
+        return '(Will give: ' ..localize{ key = key, set = "Blind", type = "name_text" }..')'
+    else 
+        return '(Random)'
+    end
+end
+
+
+
+
+  SMODS.Tag:take_ownership('investment', {
     config = { dollars = 10, dollars_per_ante = 5 },
     loc_vars = function(self, info_queue, tag)
         return {vars = {
@@ -68,34 +113,6 @@ SMODS.Tag:take_ownership('investment', {
     end,
 }, true)
 
-SMODS.Tag:take_ownership('boss', {
-    apply = function(self, tag, context)
-        if context.type == 'new_blind_choice' then
-            local lock = tag.ID
-            G.CONTROLLER.locks[lock] = true
-            tag:yep('+', G.C.GREEN, function()
-                G.from_boss_tag = true
-                G.FUNCS.reroll_boss()
-
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                G.CONTROLLER.locks[lock] = nil
-                                return true
-                            end
-                        }))
-                        return true
-                    end
-                }))
-
-                return true
-            end)
-            tag.triggered = true
-            return true
-        end
-    end
-}, true)
 SMODS.Tag:take_ownership('uncommon', {
     loc_vars = function(self, info_queue, tag)
         return {vars = {

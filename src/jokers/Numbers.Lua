@@ -372,4 +372,22 @@ SMODS.Joker:take_ownership('blue_joker',
     end
 }, true)
 
+SMODS.Joker:take_ownership('space',
+{
+    name = "BBG_space",
+    config = { extra = { odds = 3} },
+    loc_vars = function(self, info_queue, card)
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'BBG_space')
+        return { vars = { numerator, denominator } }
+    end,
+    calculate = function(self, card, context)
+        if context.before and SMODS.pseudorandom_probability(card, 'BBG_space', 1, card.ability.extra.odds) then
+            return {
+                level_up = true,
+                message = localize('k_level_up_ex')
+            }
+        end
+    end
+}, true)
+
 
