@@ -1,0 +1,20 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+
+
+[[patches]]
+[patches.pattern]
+target = 'tag.lua'
+pattern = '''
+play_sound('chips1', math.random()*0.1 + 0.55, 0.12)
+'''
+position = 'at'
+payload = '''
+play_sound('chips1', math.random()*0.1 + 0.55, 0.12)
+if self.blue_stake_warning_text then
+        self.blue_stake_warning_text:remove()
+        self.blue_stake_warning_text = nil
+end
+'''
+match_indent = true

@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+
+
+[[patches]]
+[patches.pattern]
+target = 'tag.lua'
+pattern = '''
+elseif name_to_check == 'Garbage Tag' then loc_vars = {self.config.dollars_per_discard, self.config.dollars_per_discard*(G.GAME.unused_discards or 0)}
+'''
+position = 'at'
+payload = '''
+
+'''
+match_indent = true
